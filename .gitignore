@@ -26,7 +26,20 @@
 *.a
 *.lib
 
+# Vim
+*.swp
+
+# Profiling
+*.trace
+*.dSYM
+
 # Executables
 *.exe
 *.out
 *.app
+
+# Named folders
+.build
+.project
+.vs
+.gitattributes

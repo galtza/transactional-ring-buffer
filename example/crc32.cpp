@@ -89,13 +89,13 @@ auto crc32(const uint8_t* _buff, uint64_t _len, uint32_t _crc) -> uint32_t {
     const auto end = _buff + _len;
 
     #if defined (_M_X64)
-    const auto m = (uint64_t*)_buff + (_len / 8);
+    const auto m = (uint64_t*)_buff + (_len / sizeof(uint64_t));
     auto i = (uint64_t*)_buff;
     for (; i < m; ++i) {
         _crc = (uint32_t)_mm_crc32_u64(_crc, *i);
     }
     #else
-    const auto m = (uint32_t*)_buff + (_len / 8);
+    const auto m = (uint32_t*)_buff + (_len / sizeof(uint32_t));
     auto i = (uint32_t*)_buff;
     for (; i < m; ++i) {
         _crc = (uint32_t)_mm_crc32_u32(_crc, *i);

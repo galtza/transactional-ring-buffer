@@ -287,6 +287,37 @@ auto main () -> int {
 
     {
         qcstudio::containers::transactional_ring_buffer<float> buff;
+        verify(CHECK(buff.reserve(32) == true));
+
+        // Variadic 'push_back'
+        BEGIN_TEST("Single VARIADIC 'push_back's with data that fit into the buffer...");
+        {
+            auto wr = buff.try_write(0.f);
+            verify(CHECK((bool)wr));
+            verify(CHECK(wr.size() == 0));
+            verify(CHECK(wr.push_back(42, 42) == 2));
+            verify(CHECK(wr.size() == 2 * sizeof(42)));
+            verify(CHECK((bool)wr));
+        }
+        verify(CHECK(buff.size() == (qcstudio::containers::transaction_base<float>::header_size() + 2 * sizeof (42))));
+        END_TEST();
+
+        // Too many parameters for variadic 'push_back'
+        BEGIN_TEST("Too many parameters for a variadic 'push_back', hence, fail...");
+        {
+            auto wr = buff.try_write(0.f);
+            verify(CHECK((bool)wr));
+            verify(CHECK(wr.size() == 0));
+            verify(CHECK(wr.push_back(42, 42, 42) == 2));
+            verify(CHECK((bool)wr)); // after failing a push_back the transaction is still valid. only that operation failed
+            verify(CHECK(wr.size() == 2 * sizeof(42)));
+        }
+        verify(CHECK(buff.size() == (2 * qcstudio::containers::transaction_base<float>::header_size() + 4 * sizeof (42))));
+        END_TEST();
+    }
+
+    {
+        qcstudio::containers::transactional_ring_buffer<float> buff;
         BEGIN_TEST("'push_back' + 'invalidate'...");
         verify(CHECK(buff.reserve(32) == true));
         {

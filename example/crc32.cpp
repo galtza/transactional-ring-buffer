@@ -318,7 +318,7 @@ auto main() -> int {
     println() << "Final result is " << (g_consumer_hash == g_producer_hash ? "PASSED" : "ERROR") << " (crc32 = 0x" << hex << g_consumer_hash << ")";
     println() << "== Stats == ";
     println() << "# Times producer could not write = " << dec << g_failed_writes;
-    println() << "# times consumer could not read  = " << dec << g_failed_reads;
+    println() << "# Times consumer could not read  = " << dec << g_failed_reads;
     println() << "Time elapsed  = " << dec << ns << " ns, " << ns / 1000.f << " us << " << ns / 1000000.f << " ms, " << ns / 1000000000.f << " sec";
 
     return 0;

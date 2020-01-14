@@ -39,7 +39,7 @@
 
         time_type now = _arbitrary_get_time_function_();
         if (auto wr = buffer.try_write(now)) {
-            wr.push_back(0x451bc);
+            wr.push_back(42);
             ...
             wr.invalidate(); // you can invalidate before the destruction
         }
@@ -47,7 +47,7 @@
     On the CONSUMER side...
 
         if (auto rd = buffer.try_read()) { 
-            if (auto [data, ok] = rd.pop_front<uint32_t>(); ok) {
+            if (auto [data, ok] = rd.pop_front<int>(); ok) {
                 ... 
                 rw.invalidate(); // you can invalidate before the destruction
             }
@@ -62,6 +62,7 @@
 */
 
 #include <atomic>
+#include <type_traits>
 #include <utility>
 #include <algorithm>
 #include <functional>
@@ -250,12 +251,22 @@ namespace containers {
             Data operations
 
             - the failure of the operations does not invalidate the whole transaction.
-            - the operation pushes back the whole data or none (no partial additions)
+            - on simple 'push_back' the operation occurs completely or not (no partial additions)
+            - on variadic 'push_backs' it is added as many as it can and returns the number of successfully added items
             - commit is not mandatory as destructor shall call it automatically
         */
+
+        // raw memory
+        auto push_back(const uint8_t* _data, const uint32_t _size) -> bool;
+
+        // single
         template<typename T>
         auto push_back(const T& _data) -> bool;
-        auto push_back(const uint8_t* _data, const uint32_t _size) -> bool;
+
+        // variadic
+        template<typename T, typename ...REST>
+        auto push_back(const T& _data, REST... _rest) -> typename std::enable_if<!std::is_pointer<T>::value, int>::type;
+
         void commit();
 
     private:
@@ -426,6 +437,15 @@ namespace containers {
         this->header_.size += sizeof(T);
 
         return true;
+    }
+
+    template<typename TIMESTAMP_TYPE>
+    template<typename T, typename ...REST>
+    forceinline auto write_transaction<TIMESTAMP_TYPE>::push_back(const T& _item, REST... _rest) -> typename std::enable_if<!std::is_pointer<T>::value, int>::type {
+        if (!push_back(_item)) {
+            return 0;
+        }
+        return 1 + push_back(_rest...);
     }
 
     template<typename TIMESTAMP_TYPE>

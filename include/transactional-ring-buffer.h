@@ -430,8 +430,8 @@ namespace containers {
 
     template<typename TIMESTAMP_TYPE>
     forceinline read_transaction<TIMESTAMP_TYPE>::read_transaction(read_transaction&& _other) : transaction_base<TIMESTAMP_TYPE>(_other.buffer_) {
-        //this->header_.size = _other.header_.size;
-        //this->header_.timestamp = _other.header_.timestamp;
+        this->header_.size = _other.header_.size;
+        this->header_.timestamp = _other.header_.timestamp;
         this->index_ = _other.index_;
         this->available_ = _other.available_;
 
@@ -442,9 +442,7 @@ namespace containers {
     forceinline read_transaction<TIMESTAMP_TYPE>::read_transaction(transactional_ring_buffer<TIMESTAMP_TYPE>& _buffer) : transaction_base<TIMESTAMP_TYPE>(_buffer) {
         if (_buffer) {
             if (!this->buffer_.reading_ && this->buffer_.size_.load(std::memory_order_acquire) > 0) { // note: as transactions are atomic we just need to check that the buffer size is greater than zero
-
-                // read the header (size + timestamp)
-                this->buffer_.llread(this->buffer_.start_,                                                     this->header_.size);
+                this->buffer_.llread(this->buffer_.start_,                                                      this->header_.size);
                 this->buffer_.llread(this->buffer_.index_of(this->buffer_.start_ + sizeof(this->header_.size)), this->header_.timestamp);
 
                 this->index_ = this->buffer_.index_of(this->buffer_.start_ + this->header_size());

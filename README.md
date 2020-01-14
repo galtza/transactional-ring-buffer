@@ -45,4 +45,4 @@ From the **consumer** side...
 
 ### Example
 
-Please, find a full example [in here](https://github.com/galtza/transactional-ring-buffer/blob/master/example/crc32.cpp).
+Please, find a full example [here](https://github.com/galtza/transactional-ring-buffer/blob/master/example/crc32.cpp).

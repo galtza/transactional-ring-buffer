@@ -1,5 +1,5 @@
 # timestamped, transactional, ring buffer
-Headed-only library for **Single** producer / **single** consumer, lock-free and **timestamped** transactional ring buffer data structure.
+Header-only library for **Single** producer / **single** consumer, lock-free and **timestamped** transactional ring buffer data structure.
 
 ### Create buffer 
 

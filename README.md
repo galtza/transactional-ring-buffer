@@ -1,10 +1,10 @@
 # timestamped, transactional, ring buffer
-**Single** producer / **single** consumer, lock-free, single-headed and **timestamped** transactional ring buffer.
+Headed-only library for **Single** producer / **single** consumer, lock-free and **timestamped** transactional ring buffer data structure.
 
 ### Create buffer 
 
 1. Select the time representation (_**float**_ for instance).
-2. Create an instance on any thread that is not the consumer nor the consumer threads.
+2. Create an instance on any thread that is not the producer nor the consumer threads.
 
 ```c++
     qcstudio::storage::transactional_ring_buffer<float> rbuffer;
@@ -13,7 +13,7 @@
 
 ### Write transactions
 
-From the **producer** side...
+On the **producer** side...
 
 ```c++
     ...
@@ -26,11 +26,11 @@ From the **producer** side...
     ...
 ```
 
-Notice that the transactions follow [RAII](https://en.cppreference.com/w/cpp/language/raii) idiom so they are **committed** upon their **destruction**.
+Notice that the transactions follow [RAII](https://en.cppreference.com/w/cpp/language/raii) idiom meaning that they are **committed** upon their **destruction**.
 
 ### Read transactions
 
-From the **consumer** side...
+On the **consumer** side...
 
 ```c++
     ...

@@ -318,7 +318,7 @@ auto main() -> int {
     println() << "== Stats == ";
     println() << "Number of times the producer could not write = " << dec << g_failed_writes;
     println() << "Number of times the consumer could not read  = " << dec << g_failed_reads;
-    println() << "Time elapsed  = " << dec << ns << " ns, " << ns / 1000.f << " us << " << ns / 1000000.f << " ms, " << ns / 1000000000.f << " sec";
+    println() << "Time elapsed  = " << dec << ns << " ns, " << ns / 1000.f << " us, " << ns / 1000000.f << " ms, " << ns / 1000000000.f << " sec";
 
     return 0;
 }

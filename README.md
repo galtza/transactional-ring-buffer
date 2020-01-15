@@ -76,5 +76,5 @@ $ ./crc32
 [5489882500][Main] == Stats == 
 [5489890198][Main] Number of times the producer could not write = 818202
 [5489925755][Main] Number of times the consumer could not read  = 407736
-[5489940523][Main] Time elapsed  = 145905986 ns, 145906 us << 145.906 ms, 0.145906 sec
+[5489940523][Main] Time elapsed  = 145905986 ns, 145906 us, 145.906 ms, 0.145906 sec
 ```

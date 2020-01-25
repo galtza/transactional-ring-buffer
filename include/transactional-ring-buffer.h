@@ -1,7 +1,7 @@
 /*
     MIT License
 
-    Copyright (c) 2016-2020 Raul Ramos
+    Copyright (c) 2016-2020 Raúl Ramos
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -621,12 +621,12 @@ namespace containers {
     // Low level writes and reads (for integrals try to assign instead of memcpy when possible)
 
     template<typename TIMESTAMP_TYPE>
-    forceinline void transactional_ring_buffer<TIMESTAMP_TYPE>::llwrite(uint32_t _write_position, const uint8_t* _src, uint32_t _size) {
-        if (_write_position + _size <= capacity_) {
-            memcpy(&memory_[_write_position], _src, _size);
+    forceinline void transactional_ring_buffer<TIMESTAMP_TYPE>::llwrite(uint32_t _idx, const uint8_t* _src, uint32_t _size) {
+        if (_idx + _size <= capacity_) {
+            memcpy(&memory_[_idx], _src, _size);
         } else {
-            auto first_chunk_size = capacity_ - _write_position;
-            memcpy(&memory_[_write_position], _src, first_chunk_size);
+            auto first_chunk_size = capacity_ - _idx;
+            memcpy(&memory_[_idx], _src, first_chunk_size);
             memcpy(&memory_[0], _src + first_chunk_size, _size - first_chunk_size);
         }
     }
@@ -651,12 +651,12 @@ namespace containers {
     }
 
     template<typename TIMESTAMP_TYPE>
-    forceinline void transactional_ring_buffer<TIMESTAMP_TYPE>::llread(uint32_t _read_position, uint8_t* _dest, uint32_t _size) {
-        if ((_read_position + _size) <= capacity_) {
-            memcpy(_dest, reinterpret_cast<void*>(memory_ + _read_position), _size);
+    forceinline void transactional_ring_buffer<TIMESTAMP_TYPE>::llread(uint32_t _idx, uint8_t* _dest, uint32_t _size) {
+        if ((_idx + _size) <= capacity_) {
+            memcpy(_dest, reinterpret_cast<void*>(memory_ + _idx), _size);
         } else {
-            const auto first_chunk_size = capacity_ - _read_position;
-            memcpy(_dest, reinterpret_cast<void*>(&memory_[_read_position]), first_chunk_size);
+            const auto first_chunk_size = capacity_ - _idx;
+            memcpy(_dest, reinterpret_cast<void*>(&memory_[_idx]), first_chunk_size);
             memcpy(_dest + first_chunk_size, reinterpret_cast<void*>(&memory_[0]), _size - first_chunk_size);
         }
     }

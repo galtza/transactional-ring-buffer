@@ -49,6 +49,9 @@ workspace "crc32"
         buildoptions { "-fno-exceptions" }
         buildoptions { "-msse4.2" }
 
+    filter { "system:linux" }
+        links "pthread"
+
     filter {}
 
 project "crc32"

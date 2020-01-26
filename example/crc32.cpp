@@ -31,6 +31,7 @@
 #include <mutex>
 #include <future>
 #include <sstream>
+#include <cstdint>
 #include <nmmintrin.h>
 
 #include "transactional-ring-buffer.h"
@@ -45,9 +46,9 @@ using namespace chrono_literals;
     == Helper functions ========
 */
 
-constexpr auto operator""_KiB(uint64_t v) -> uint64_t;
-constexpr auto operator""_MiB(uint64_t v) -> uint64_t;
-constexpr auto operator""_GiB(uint64_t v) -> uint64_t;
+constexpr auto operator""_KiB(unsigned long long int v) -> uint64_t;
+constexpr auto operator""_MiB(unsigned long long int v) -> uint64_t;
+constexpr auto operator""_GiB(unsigned long long int v) -> uint64_t;
 
 auto crc32(const uint8_t* _buff, uint64_t _len, uint32_t _crc = 0xffFFffFF) -> uint32_t;
 auto time_now () -> uint64_t;
@@ -60,7 +61,7 @@ qcstudio::containers::transactional_ring_buffer<uint64_t> g_rbuffer;
 unique_ptr<uint8_t[]> g_data;
 uint64_t g_data_size;
 mutex g_print_mutex;
-auto g_start_time = high_resolution_clock::now();;
+auto g_start_time = high_resolution_clock::now();
 map<thread::id, string> g_tid2str;
 auto g_producer_hash = 0xFFffFFff;
 auto g_consumer_hash = 0xFFffFFff;
@@ -146,15 +147,9 @@ class internal_coutln {
 
 #define coutln internal_coutln()
 
-constexpr auto operator""_KiB(uint64_t _v) -> uint64_t {
-    return 1024u * _v;
-}
-constexpr auto operator""_MiB(uint64_t _v) -> uint64_t {
-    return 1024u * 1024u * _v;
-}
-constexpr auto operator""_GiB(uint64_t _v) -> uint64_t {
-    return 1024u * 1024u * 1024u * _v;
-}
+constexpr auto operator""_KiB(unsigned long long int v) -> uint64_t { return 1024u * v; }
+constexpr auto operator""_MiB(unsigned long long int v) -> uint64_t { return 1024u * 1024u * v; }
+constexpr auto operator""_GiB(unsigned long long int v) -> uint64_t { return 1024u * 1024u * 1024u * v; }
 
 /*
     == Producer ========

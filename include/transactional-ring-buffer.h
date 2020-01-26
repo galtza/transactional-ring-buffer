@@ -66,6 +66,7 @@
 #include <utility>
 #include <algorithm>
 #include <functional>
+#include <cstring>
 
 #pragma push_macro("forceinline")
 #undef forceinline
@@ -330,13 +331,13 @@ namespace containers {
 
     template<typename TIMESTAMP_TYPE>
     forceinline auto transaction_base<TIMESTAMP_TYPE>::size() const -> uint32_t {
-        assert((bool)*this); // TODO: Add debug checks
+        //assert((bool)*this); // TODO: Add debug checks
         return header_.size - header_size();
     }
 
     template<typename TIMESTAMP_TYPE>
     forceinline auto transaction_base<TIMESTAMP_TYPE>::timestamp() const -> TIMESTAMP_TYPE {
-        assert((bool)*this); // TODO: Add debug checks
+        //assert((bool)*this); // TODO: Add debug checks
         return header_.timestamp;
     }
 
@@ -553,7 +554,7 @@ namespace containers {
         if (own_memory_ && memory_) {
             delete[] memory_;
         }
-    };
+    }
 
     template<typename TIMESTAMP_TYPE>
     forceinline void transactional_ring_buffer<TIMESTAMP_TYPE>::set_buffer(uint8_t* _memory, uint32_t _capacity) {
@@ -604,7 +605,7 @@ namespace containers {
             return true;
         }
         return false;
-    };
+    }
 
     // Creation of transactions
 

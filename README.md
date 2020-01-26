@@ -53,7 +53,7 @@ We use **premake5** as a replacement of **cmake** for simplicity reasons. In all
 example$ ../external/premake5/osx/premake5 gmake
 example$ cd .build
 .build$ make
-.build$ ../.out/crc32
+.build$ ../.out/crc32/x64/Release/crc32 
 ```
 
 ### Benchmark

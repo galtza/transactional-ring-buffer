@@ -25,28 +25,28 @@
 workspace "crc32"
     location ".build"
 
-    configurations { "release", "debug" }
-    platforms      { "x64", "x32" }
+    configurations { "Release", "Debug" }
+    platforms      { "x64", }
 
 	language "C++"
 	cppdialect "C++17"
 
-    filter { "configurations:debug"   } defines { "DEBUG" }  symbols  "On"
-    filter { "configurations:release" } defines { "NDEBUG" } optimize "On"
-    filter { "platforms:*32"          } architecture "x86"
-    filter { "platforms:*64"          } architecture "x64"
+    flags { "FatalCompileWarnings", "FatalLinkWarnings" }
+
+    filter { "configurations:Debug"   } defines { "DEBUG" }  symbols  "On" 
+    filter { "configurations:Release" } defines { "NDEBUG" } optimize "Speed" 
+    filter { "platforms:*64"          } architecture "x86_64"
 
     filter { "system:macosx", "action:gmake"}
         toolset "clang"
 
     filter { "system:windows", "action:vs*"}
-        buildoptions { "/W4", "/WX" }
+        buildoptions { "/W3" }
         buildoptions { "/EHsc" }
-        buildoptions { "/arch:SSE4.2" }
 
     filter {"toolset:clang or toolset:gcc"}
-        buildoptions { "-Wall", "-Wextra", "-pedantic", "-Werror" }
-        buildoptions { "-fno-exceptions", "-msse4.2" }
+        buildoptions { "-Wall", "-Wextra", "-pedantic" }
+        buildoptions { "-fno-exceptions" }
         buildoptions { "-msse4.2" }
 
     filter {}
@@ -56,7 +56,8 @@ project "crc32"
     kind "ConsoleApp"
     language "C++"
     includedirs { "../include" }
-    targetdir ".out/%{cfg.buildcfg}"
+    targetdir ".out/%{prj.name}/%{cfg.platform}/%{cfg.buildcfg}"
+    objdir ".tmp/%{prj.name}"
 
     files { "*.cpp", "../include/*.h" }
 

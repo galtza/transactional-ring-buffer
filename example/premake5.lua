@@ -23,44 +23,29 @@
 --]]
 
 workspace "crc32"
-    location ".build"
+	language "C++"
+	cppdialect "C++17"
 
     configurations { "Release", "Debug" }
     platforms      { "x64", }
 
-	language "C++"
-	cppdialect "C++17"
+    location ".build"
+    flags  { "FatalCompileWarnings", "FatalLinkWarnings" }
 
-    flags { "FatalCompileWarnings", "FatalLinkWarnings" }
-
-    filter { "configurations:Debug"   } defines { "DEBUG" }  symbols  "On" 
-    filter { "configurations:Release" } defines { "NDEBUG" } optimize "Speed" 
-    filter { "platforms:*64"          } architecture "x86_64"
-
-    filter { "system:macosx", "action:gmake"}
-        toolset "clang"
-
-    filter { "system:windows", "action:vs*"}
-        buildoptions { "/W3" }
-        buildoptions { "/EHsc" }
-
-    filter {"toolset:clang or toolset:gcc"}
-        buildoptions { "-Wall", "-Wextra", "-pedantic" }
-        buildoptions { "-fno-exceptions" }
-        buildoptions { "-msse4.2" }
-
-    filter { "system:linux" }
-        links "pthread"
-
-    filter {}
+    filter { "configurations:Debug"          } defines { "DEBUG"  } symbols  "On" 
+    filter { "configurations:Release"        } defines { "NDEBUG" } optimize "Speed" 
+    filter { "platforms:*64"                 } architecture "x86_64"
+    filter { "system:macosx", "action:gmake" } toolset "clang"
+    filter { "system:windows", "action:vs*"  } buildoptions { "/W3", "/EHsc" }
+    filter { "system:linux"                  } links "pthread"
+    filter { "toolset:clang or toolset:gcc"  } buildoptions { "-Wall", "-Wextra", "-pedantic", "-fno-exceptions", "-msse4.2" }
+    filter { }
 
 project "crc32"
-    location ".build"
     kind "ConsoleApp"
-    language "C++"
+
     includedirs { "../include" }
     targetdir ".out/%{prj.name}/%{cfg.platform}/%{cfg.buildcfg}"
     objdir ".tmp/%{prj.name}"
 
     files { "*.cpp", "../include/*.h" }
-

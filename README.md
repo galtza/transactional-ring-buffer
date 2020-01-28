@@ -47,6 +47,8 @@ if (auto rd = rbuffer.try_read()) {
 
 Please, find a full example [here](https://github.com/galtza/transactional-ring-buffer/blob/master/example/crc32.cpp).
 
+It consists of three threads (main, producer and consumer threads). The main thread generates random numbers (up to 420 MiB of numbers) and calculates its crc32 value, the producer thread stores random chunks of it into a transaction buffer and, Finally, the consumer reads it as it calculates the crc32 incrementally. If the two crc32 numbers coincide, all is ok.
+
 We use **premake5** as a replacement of **cmake** for simplicity reasons. In all platforms it is as simple as invoking **premake5** with the action to be taken (*gmake* in linux/osx and *vs2017*/*vs2019*/etc. for instance for Windows):
 
 ```bash

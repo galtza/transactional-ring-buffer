@@ -20,9 +20,7 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
-*/
 
-/*
      _   _
     | | | |___  __ _  __ _  ___  _
     | | | / __|/ _` |/ _` |/ _ \(_)
@@ -74,7 +72,7 @@
 #   define forceinline __forceinline
 #   pragma warning(disable : 4714)
 #elif defined (__clang__) || defined(__GNUC__)
-#   define forceinline __attribute__((always_inline)) inline
+#   define forceinline __attribute__((always_inline))
 #else
 #   define forceinline inline
 #endif

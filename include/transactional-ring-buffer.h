@@ -20,7 +20,10 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
+*/
 
+/*
+    -- Version 1.0 --
      _   _
     | | | |___  __ _  __ _  ___  _
     | | | / __|/ _` |/ _` |/ _ \(_)
@@ -57,6 +60,7 @@
         - transactions can be be invalidated before destruction
         - read transactions do not need to be read completely 
         - requires c++11
+
 */
 
 #include <atomic>

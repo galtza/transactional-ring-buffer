@@ -6,3 +6,9 @@
 *.build
 *.out
 *.tmp
+
+# Backup
+*.rar
+*.zip
+*.backup
+

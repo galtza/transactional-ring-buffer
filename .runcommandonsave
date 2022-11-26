@@ -1,0 +1,4 @@
+[PreSave]
+Commands=Edit.FormatDocument
+ExcludeExtensions=.xml|.py|.clang-format|.runcommandonsave
+ExcludePaths=

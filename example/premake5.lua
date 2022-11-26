@@ -22,7 +22,7 @@
     SOFTWARE.
 --]]
 
-workspace "crc32"
+workspace "trb_test"
 	language "C++"
 	cppdialect "C++17"
 
@@ -41,7 +41,7 @@ workspace "crc32"
     filter { "toolset:clang or toolset:gcc"  } buildoptions { "-Wall", "-Wextra", "-pedantic", "-fno-exceptions", "-msse4.2" }
     filter { }
 
-project "crc32"
+project "trb_test"
     kind "ConsoleApp"
 
     includedirs { "../include" }

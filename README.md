@@ -45,7 +45,7 @@ if (auto rd = rbuffer.try_read()) {
 
 ### Example
 
-Please, find a full example [here](https://github.com/galtza/transactional-ring-buffer/blob/master/example/crc32.cpp).
+Please, find a full example [here](https://github.com/galtza/transactional-ring-buffer/blob/master/example/trb_test.cpp).
 
 It consists of three threads (main, producer and consumer threads). The main thread generates random numbers (up to 420 MiB of numbers) and calculates its crc32 value, the producer thread stores random chunks of it into a transaction buffer and, Finally, the consumer reads it as it calculates the crc32 incrementally. If the two crc32 numbers coincide, all is ok.
 
@@ -55,7 +55,7 @@ We use **premake5** as a replacement of **cmake** for simplicity reasons. In all
 example$ ../external/premake5/osx/premake5 gmake
 example$ cd .build
 .build$ make
-.build$ ../.out/crc32/x64/Release/crc32 
+.build$ ../.out/trb_test/x64/Release/trb_test 
 ```
 
 ### Benchmark
@@ -63,7 +63,7 @@ example$ cd .build
 On a MacBook Air (Mid 2011) with a 1.8 GHz Inter Core i7 and 4GB 1333 MHz DDR3 the result of the execution of the previous example are:
 
 ```sh
-$ ./crc32
+$ ./trb_test
 [347954498][Main] Generating random sample of 420 MiB...
 [5699542353][Main] Calculating crc32...
 [5866618530][Main] Crc32 = 0xa3de204
